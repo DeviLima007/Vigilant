@@ -229,6 +229,47 @@
           ? document.body.classList.add("dark")
           : document.body.classList.remove("dark");
       });
+
+      const searchInput = document.querySelector('.form-input input');
+      const tableRows = document.querySelectorAll('tbody tr');
+
+      searchInput.addEventListener('input', () => {
+        const searchValue = searchInput.value.toLowerCase();
+
+        tableRows.forEach(row => {
+          const rowText = row.textContent.toLowerCase();
+          row.style.display = rowText.includes(searchValue) ? '' : 'none';
+        });
+      });
+
+      const addRiskButton = document.querySelector('.report');
+      const tableBody = document.querySelector('tbody');
+
+      addRiskButton.addEventListener('click', () => {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+        <td>
+        <img src="/assets/images (35).jpg" />
+        <p>Novo Setor</p>
+        </td>
+        <td>${new Date().toLocaleDateString()}</td>
+      <td><span class="status process">Em risco</span></td>
+      `;
+      tableBody.appendChild(newRow);
+      });
+
+      tableBody.addEventListener('click', (e) => {
+        if (e.target.classList.contains('edit')) {
+          const row = e.target.closest('tr');
+          const setor = prompt('Editar Setor:', row.querySelector('p').textContent);
+          if (setor) row.querySelector('p').textContent = setor;
+        }
+      
+        if (e.target.classList.contains('delete')) {
+          const row = e.target.closest('tr');
+          row.remove();
+        }
+      });
       </script>
   </body>
 </html>
